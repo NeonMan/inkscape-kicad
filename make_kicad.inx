@@ -25,19 +25,6 @@
 		</effects-menu>
 	</effect>
 	
-	<!-- This seems to register this extension as a "save as..." format -->
-	<!--
-	<output>
-		<extension>.lib</extension>
-		<mimetype>application/x.kicad</mimetype>
-		<_filetypename>KiCAD footprint (*.lib)</_filetypename>
-		<_filetypetooltip>Export as KiCAD footprint</_filetypetooltip>
-		<dataloss>true</dataloss>
-	</output>
-	-->
-	
-	<!-- Call script. Find a way to filter out objects of non-polygon type. -->
-	<!--   See: <object-type> block (?) -->
 	<script>
 		<command reldir="extensions" interpreter="python">make_kicad.py</command>
 	</script>

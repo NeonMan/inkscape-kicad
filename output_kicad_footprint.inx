@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+	<_name>Save as KiCAD Footprint</_name>
+	<id>net.heavydeck.inkscape.kicad.footprint.output</id>
+	<dependency type="executable" location="extensions">make_kicad.py</dependency>
+	
+	<!-- This seems to register this extension as a "save as..." format -->
+	<output>
+		<extension>.lib</extension>
+		<mimetype>application/x.kicad</mimetype>
+		<_filetypename>KiCAD footprint (*.lib)</_filetypename>
+		<_filetypetooltip>Export as KiCAD footprint</_filetypetooltip>
+		<dataloss>true</dataloss>
+	</output>
+	
+	<script>
+		<command reldir="extensions" interpreter="python">make_kicad.py</command>
+	</script>
+</inkscape-extension>
