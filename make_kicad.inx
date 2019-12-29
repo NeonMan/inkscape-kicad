@@ -20,11 +20,6 @@
 		<object-type>all</object-type>
 		<effects-menu>
 			<submenu name="KiCAD" />
-			<!--
-			<submenu name="KiCAD">
-				<submenu _name="Export" />
-			</submenu>
-			-->
 		</effects-menu>
 	</effect>
 	
