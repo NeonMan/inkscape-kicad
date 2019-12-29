@@ -2,7 +2,7 @@
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
 	<_name>Save as KiCAD Footprint</_name>
 	<id>net.heavydeck.inkscape.kicad.footprint.output</id>
-	<dependency type="executable" location="extensions">make_kicad.py</dependency>
+	<dependency type="executable" location="extensions">kicad_footprint.py</dependency>
 	
 	<!-- This seems to register this extension as a "save as..." format -->
 	<output>
@@ -14,6 +14,6 @@
 	</output>
 	
 	<script>
-		<command reldir="extensions" interpreter="python">make_kicad.py</command>
+		<command reldir="extensions" interpreter="python">kicad_footprint.py</command>
 	</script>
 </inkscape-extension>
