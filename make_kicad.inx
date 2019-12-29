@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+	<_name>Export as KiCAD Footprint</_name>
+	<id>net.heavydeck.inkscape.kicad.footprint</id>
+	<dependency type="executable" location="extensions">make_kicad.py</dependency>
+	<param name="type" type="enum" _gui-text="Layer:">
+		<_item value="F.SilkS">Front Silk</_item>
+		<_item value="F.Cu">Front Copper</_item>
+		<_item value="F.Mask">Front Mask</_item>
+		<_item value="B.SilkS">Bottom Silk</_item>
+		<_item value="B.Cu">Bottom Copper</_item>
+		<_item value="B.Mask">Bottom Mask</_item>
+		<_item value="AUTO">Automatic layering</_item>
+	</param>
+	<param name="name" type="string" _gui-text="Footprint name:">Footprint</param>
+	<param name="output" type="string" _gui-text="Output file:">footprint.lib</param>
+	
+	<!-- Unsure how this one works but I'll use it to set the menu location -->
+	<effect>
+		<object-type>all</object-type>
+		<effects-menu>
+			<submenu name="KiCAD" />
+			<!--
+			<submenu name="KiCAD">
+				<submenu _name="Export" />
+			</submenu>
+			-->
+		</effects-menu>
+	</effect>
+	
+	<!-- Call script. Find a way to filter out objects of non-polygon type. -->
+	<!--   See: <object-type> block (?) -->
+	<script>
+		<command reldir="extensions" interpreter="python">make_kicad.py</command>
+	</script>
+</inkscape-extension>
