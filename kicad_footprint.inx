@@ -14,7 +14,8 @@
 		<_item value="B.Cu">Bottom Copper</_item>
 		<_item value="B.Mask">Bottom Mask</_item>
 	</param>
-	<param name="name" type="string" _gui-text="Footprint name:">Footprint</param>
+	<param name="resolution" type="float" _gui-text="Resolution (mm):">0.1</param>
+	<param name="name" type="string" _gui-text="Footprint name (optional):"></param>
 	<param name="output" type="string" _gui-text="Output file:">footprint.lib</param>
 	
 	<!-- Unsure how this one works but I'll use it to set the menu location -->

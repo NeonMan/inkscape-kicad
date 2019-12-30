@@ -58,13 +58,10 @@
      id="layer1"
      transform="translate(0,-287)"
      style="display:inline">
-    <rect
-       id="rect3713"
-       width="2"
-       height="2"
-       x="4"
-       y="291"
-       style="fill:#00ff00;stroke-width:0.0149105" />
+    <path
+       style="fill:#00ff00;stroke-width:0.0149105"
+       d="m 4,291 h 2 v 2 H 4 Z"
+       id="rect3713" />
   </g>
   <g
      transform="translate(0,-287)"
@@ -72,13 +69,11 @@
      inkscape:groupmode="layer"
      inkscape:label="F.Mask"
      style="display:inline">
-    <rect
+    <path
        style="fill:#800000;stroke-width:0.0149105"
-       y="291"
-       x="4"
-       height="2"
-       width="2"
-       id="rect8" />
+       d="m 4,291 h 2 v 2 H 4 Z"
+       id="rect8"
+       inkscape:connector-curvature="0" />
   </g>
   <g
      inkscape:label="F.SilkS"
@@ -86,12 +81,10 @@
      id="g14"
      transform="translate(0,-287)"
      style="display:inline">
-    <rect
+    <path
+       style="fill:#008080;stroke-width:0.0149105"
+       d="m 4,291 h 2 v 2 H 4 Z"
        id="rect12"
-       width="2"
-       height="2"
-       x="4"
-       y="291"
-       style="fill:#008080;stroke-width:0.0149105" />
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
