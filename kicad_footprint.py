@@ -113,15 +113,7 @@ class KicadExport(inkex.Effect):
         #If parent exists, recurse
         if node.getparent():
             transform_list = self.get_transform_list(node.getparent(), transform_list)
-            
         return transform_list
-        
-    def apply_transform_point(mat, pt):
-        x = mat[0][0]*pt[0] + mat[0][1]*pt[1] + mat[0][2]
-        y = mat[1][0]*pt[0] + mat[1][1]*pt[1] + mat[1][2]
-        pt[0]=x
-        pt[1]=y
-        return pt
         
     def process_layer(self, layer_element, layer_name):
         #For each layer group, get each path.
