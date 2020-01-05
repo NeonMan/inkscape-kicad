@@ -18,11 +18,11 @@ class KicadExportException(BaseException):
         return self.message
 
 #KiCAD lib header and footer
-kicad_header = '''(module %s (layer F.Cu) (tedit 00000000)
+kicad_header = '''(module {name} (layer F.Cu) (tedit 00000000)
   (fp_text reference REF** (at 0 0.5) (layer F.SilkS) hide
     (effects (font (size 1 1) (thickness 0.15)))
   )
-  (fp_text value square-silk (at 0 -0.5) (layer F.Fab) hide
+  (fp_text value {name} (at 0 -0.5) (layer F.Fab) hide
     (effects (font (size 1 1) (thickness 0.15)))
   )
 '''
@@ -39,7 +39,7 @@ attr_groupmode = '{http://www.inkscape.org/namespaces/inkscape}groupmode'
 attr_label = '{http://www.inkscape.org/namespaces/inkscape}label'
 
 polygon_header = '(fp_poly (pts '
-polygon_footer = ') (layer %s) (width 0.1))\n'
+polygon_footer = ') (layer {layer}) (width 0.1))\n'
 
 class KicadExport(inkex.Effect):
     def __init__(self):
@@ -50,6 +50,8 @@ class KicadExport(inkex.Effect):
         self.OptionParser.add_option('--output',     action='store', type='string', dest='output',     default=None,   help='Output file')
         self.OptionParser.add_option('--resolution', action='store', type='float',  dest='resolution', default=0.1,    help='Resolution (mm)')
 
+        #Inkscape seems to thing a tab stack is an option... whatev. Ignore
+        self.OptionParser.add_option('--tabs', action='store', type='string', dest='ignore', default="")
     def effect(self):
         #Sanity checks
         if self.getDocumentUnit() != 'mm':
@@ -79,7 +81,7 @@ class KicadExport(inkex.Effect):
         self.out_layer = out_layer
             
         #Write header
-        out_file.write(kicad_header % out_name)
+        out_file.write(kicad_header.format(name=out_name))
         
         #Enumerate all SVG layers
         for element in self.document.iter(tag_group):
@@ -141,7 +143,7 @@ class KicadExport(inkex.Effect):
                     #transform point using self.transform matrix
                     #write individual point
                     self.out_file.write("(xy %f %f) " % (point[0], point[1]))
-                self.out_file.write(polygon_footer % layer_name)
+                self.out_file.write(polygon_footer.format(layer=layer_name))
 
 # Create object and call affect()
 if __name__ == '__main__':

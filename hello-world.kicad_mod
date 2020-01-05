@@ -1,0 +1,12 @@
+(module FOOTPRINT1578235865 (layer F.Cu) (tedit 00000000)
+  (fp_text reference REF** (at 0 0.5) (layer F.SilkS) hide
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value FOOTPRINT1578235865 (at 0 -0.5) (layer F.Fab) hide
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+(fp_poly (pts (xy 4.000000 4.000000) (xy 6.000000 4.000000) (xy 6.000000 6.000000) (xy 4.000000 6.000000) (xy 4.000000 4.000000) ) (layer F.SilkS) (width 0.1))
+(fp_poly (pts (xy 4.000000 4.000000) (xy 6.000000 4.000000) (xy 6.000000 6.000000) (xy 4.000000 6.000000) (xy 4.000000 4.000000) ) (layer F.SilkS) (width 0.1))
+(fp_poly (pts (xy 4.000000 4.000000) (xy 6.000000 4.000000) (xy 6.000000 6.000000) (xy 4.000000 6.000000) (xy 4.000000 4.000000) ) (layer F.SilkS) (width 0.1))
+
+)
