@@ -29,7 +29,21 @@
 		
 		<!-- Help -->
 		<page name="tab_help" _gui-text="Help">
-			<param name="help" type="description" xml:space="preserve">
+			<param name="help" type="description" xml:space="preserve">SVG to KiCAD Footprint plugin.
+
+This plugin converts inkscape Paths into KiCAD footprints. Only paths will be processed so any text or shape object must be converted to paths before processing.
+As of now, All paths, visible or not, will be processed and put into laywers.
+
+The layers will be converted into KiCAD layers by either selecting one on the drop-down menu, or automatically by converting layers into KiCAD layers named the same way.
+The following layers are commonly used in KiCAD:
+	- F.Cu
+	- B.Cu (Front/Bottom Copper layers)
+	- F.SilkS
+	- B.SilkS (Front/Bottom  Silkscreen layers)
+	- F.Mask
+	- B.Mask  (Front/Bottom  Solder mask)
+
+This plugin is unable, as of now, of converting paths and shapes with "holes" on them. These shapes must be broken into "hole-less" paths for correct processing.
 			</param>
 		</page>
 		
