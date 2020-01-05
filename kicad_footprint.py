@@ -1,11 +1,14 @@
 import inkex
-import cspsubdiv
+import cspsubdiv, cubicsuperpath, simpletransform
 import sys
 import time
 import math
 
-def log(msg):
-    sys.stderr.write("[LOG] " + str(msg) + "\n")
+log_everything = False
+
+def log(msg, is_warning=False):
+    if log_everything or is_warning:
+        sys.stderr.write("[LOG] " + str(msg) + "\n")
 
 class KicadExportException(BaseException):
     def __init__(self, message):
@@ -31,9 +34,12 @@ kicad_footer = '''
 
 #Constants n stuff
 tag_group = '{http://www.w3.org/2000/svg}g'
+tag_path = '{http://www.w3.org/2000/svg}path'
 attr_groupmode = '{http://www.inkscape.org/namespaces/inkscape}groupmode'
 attr_label = '{http://www.inkscape.org/namespaces/inkscape}label'
 
+polygon_header = '(fp_poly (pts '
+polygon_footer = ') (layer %s) (width 0.1))\n'
 
 class KicadExport(inkex.Effect):
     def __init__(self):
@@ -95,10 +101,55 @@ class KicadExport(inkex.Effect):
         #Cleanup
         if out_file != sys.stdout:
             out_file.close()
+    
+    def get_transform_list(self, node, cummulative = []):
+        #For each node, get all the 'transform' attributes up the node tree
+        transform_list = cummulative
+        try:
+            transform_list = transform_list + [simpletransform.parseTransform(node.attrib['transform']), ]
+        except KeyError as e:
+            pass
+        
+        #If parent exists, recurse
+        if node.getparent():
+            transform_list = self.get_transform_list(node.getparent(), transform_list)
+            
+        return transform_list
+        
+    def apply_transform_point(mat, pt):
+        x = mat[0][0]*pt[0] + mat[0][1]*pt[1] + mat[0][2]
+        y = mat[1][0]*pt[0] + mat[1][1]*pt[1] + mat[1][2]
+        pt[0]=x
+        pt[1]=y
+        return pt
         
     def process_layer(self, layer_element, layer_name):
-        #raise KicadExportException("Unimplemented")
-        self.out_file.write("##LAYER %s##\n" % layer_name)
+        #For each layer group, get each path.
+
+        for element in layer_element.iter(tag_path):
+            log("Found path: " + str(element.attrib['d']))
+            #Get the point transform at node
+            svg_transforms = self.get_transform_list(element)
+            #Parse path
+            parsed_path = cubicsuperpath.parsePath(element.attrib['d'])
+            #Convert into polyline
+            cspsubdiv.cspsubdiv(parsed_path, self.options.resolution)
+            #At this point, parsed_path contains a list of list of points (yes, I know)
+            #so for each "path", each "subpath" we should get an array of points
+            for subpath in parsed_path:
+                log("  Subpath (%d points)" % len(subpath))
+                #Write footprint path begining
+                self.out_file.write(polygon_header)
+                for point in subpath:
+                    point = list(point[1])
+                    for transform in svg_transforms:
+                        log("Applying transform: " + str(transform))
+                        simpletransform.applyTransformToPoint(transform, point)
+                    log("    Point: " + str(point))
+                    #transform point using self.transform matrix
+                    #write individual point
+                    self.out_file.write("(xy %f %f) " % (point[0], point[1]))
+                self.out_file.write(polygon_footer % layer_name)
 
 # Create object and call affect()
 if __name__ == '__main__':

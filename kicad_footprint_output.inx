@@ -6,9 +6,9 @@
 	
 	<!-- This seems to register this extension as a "save as..." format -->
 	<output>
-		<extension>.lib</extension>
-		<mimetype>application/x.kicad</mimetype>
-		<_filetypename>KiCAD footprint (*.lib)</_filetypename>
+		<extension>.kicad_mod</extension>
+		<mimetype>application/x.kicad-module</mimetype>
+		<_filetypename>KiCAD footprint (*.kicad_mod)</_filetypename>
 		<_filetypetooltip>Export as KiCAD footprint</_filetypetooltip>
 		<dataloss>true</dataloss>
 	</output>
