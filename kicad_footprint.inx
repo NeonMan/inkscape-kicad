@@ -8,7 +8,7 @@
 	<param name="tabs" type="notebook">
 		<!-- Landing tab -->
 		<page name="tab_basic" _gui-text="Parameters">
-			<param name="layer" type="enum" _gui-text="Layer:">
+			<param name="layer" type="enum" _gui-text="Layer">
 				<_item value="AUTO">Automatic layering</_item> <!-- Default -->
 				<_item value="F.SilkS">Front Silk</_item>
 				<_item value="F.Cu">Front Copper</_item>
@@ -17,14 +17,32 @@
 				<_item value="B.Cu">Bottom Copper</_item>
 				<_item value="B.Mask">Bottom Mask</_item>
 			</param>
-			<param name="name" type="string" _gui-text="Footprint name (optional):"></param>
-			<param name="output" type="string" _gui-text="Output file:">footprint.lib</param>
+			<param name="name" type="string" _gui-text="Footprint name (optional)"></param>
+			<param name="ignore_hidden" type="boolean" _gui-text="Ignore hidden layers (*)">false</param>
+			<param name="output" type="string" _gui-text="Output file">footprint.kicad_mod</param>
+			<param name="ignored_help" type="description" xml:space="preserve">(*) Unimplemented
+			</param>
 		</page>
 		
 		<!-- Rarely used "advanced" options -->
 		<page name="tab_advanced" _gui-text="Advanced">
-			<param name="resolution_help" type="description">Minimum segment length for bezier 'flattening' (in mm)</param>
-			<param name="resolution" type="float" _gui-text="Resolution:">0.1</param>
+			<param name="advanced_help" type="description" xml:space="preserve">These options seldomly require modification. Default values in [brackets]
+			</param>
+			
+			<param name="resolution" type="float" _gui-text="Resolution">0.1</param>
+			<param name="resolution_help" type="description" xml:space="preserve">Minimum segment length for bezier 'flattening' in mm [0.1]
+			</param>
+			
+			<param name="width" type="float" _gui-text="Line width (*)">0.1</param>
+			<param name="width_help" type="description" xml:space="preserve">Width of polygon border and/or line segments in mm [0.1]
+			</param>
+			
+			<param name="transform" type="string" _gui-text="Affine transform (*)">1 0 0 0 1 0</param>
+			<param name="transform_help" type="description" xml:space="preserve">Affine transformation matrix to apply before converting into a Footprint. Must be 6 float values, separated by spaces, describing the matrix row-by-row. Defaults to identity matrix [1 0 0 0 1 0]
+			</param>
+			
+			<param name="ignored_help" type="description" xml:space="preserve">(*) Unimplemented
+			</param>
 		</page>
 		
 		<!-- Help -->

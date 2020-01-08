@@ -1,3 +1,4 @@
+# -*- coding: UTF8 -*-
 '''
 Inkscape to KiCAD footprint plugin.
 Copyright (C) 2020  J.Luis Álvarez
@@ -67,6 +68,11 @@ class KicadExport(inkex.Effect):
         self.OptionParser.add_option('--output',     action='store', type='string', dest='output',     default=None,   help='Output file')
         self.OptionParser.add_option('--resolution', action='store', type='float',  dest='resolution', default=0.1,    help='Resolution (mm)')
 
+        #Unimplemented parameters
+        self.OptionParser.add_option('--width', action='store', type='float',  dest='width', default=0.1,    help='Line width (mm)')
+        self.OptionParser.add_option('--transform', action='store', type='string',  dest='transform', default='1 0 0 0 1 0',    help='Transform matrix (6 floats, row-by-row)')
+        self.OptionParser.add_option('--ignore_hidden', action='store', type='string',  dest='ignore_hidden', default=0, help='Ignore hidden layers')
+
         #Inkscape seems to thing a tab stack is an option... whatev. Ignore
         self.OptionParser.add_option('--tabs', action='store', type='string', dest='ignore', default="")
     def effect(self):
@@ -76,27 +82,36 @@ class KicadExport(inkex.Effect):
         if self.document == None:
             raise KicadExportException("Document failed to parse")
         
-        #Get arguments and document info.
-        doc_width = int(self.getDocumentWidth()[:-2])
-        doc_height = int(self.getDocumentHeight()[:-2])
+        # Parse command-line options
+        #---------------------------
         
+        #name -- Footprint name
         out_name = self.options.name
         if (out_name == None) or (out_name == ''):
-            #Generate a sorta random footprint name
+            #Generate a sorta random footprint name if none specified
             out_name = "FOOTPRINT" + str(int(time.time()))
             log("Using generated footprint name: " + out_name)
         self.out_name = out_name
         
+        #output -- Output file
         out_file = sys.stdout
         if (self.options.output != None):
             out_file = open(self.options.output, 'w')
         self.out_file = out_file
-                
+        
+        #layer -- Output layer
         out_layer = None
         if self.options.layer != 'AUTO':
             out_layer = self.options.layer
         self.out_layer = out_layer
-            
+        
+        #resolution -- Minimum segment length
+        self.resolution = self.options.resolution
+        
+        
+        # Write headers and prepare for conversion
+        #-----------------------------------------
+        
         #Write header
         out_file.write(kicad_header.format(name=out_name))
         
@@ -130,7 +145,7 @@ class KicadExport(inkex.Effect):
             pass
         
         #If parent exists, recurse
-        if node.getparent():
+        if node.getparent() != None:
             transform_list = self.get_transform_list(node.getparent(), transform_list)
         return transform_list
         
@@ -144,7 +159,7 @@ class KicadExport(inkex.Effect):
             #Parse path
             parsed_path = cubicsuperpath.parsePath(element.attrib['d'])
             #Convert into polyline
-            cspsubdiv.cspsubdiv(parsed_path, self.options.resolution)
+            cspsubdiv.cspsubdiv(parsed_path, self.resolution)
             #At this point, parsed_path contains a list of list of points (yes, I know)
             #so for each "path", each "subpath" we should get an array of points
             for subpath in parsed_path:
