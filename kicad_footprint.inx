@@ -18,9 +18,8 @@
 				<_item value="B.Mask">Bottom Mask</_item>
 			</param>
 			<param name="name" type="string" _gui-text="Footprint name (optional)"></param>
-			<param name="ignore_hidden" type="boolean" _gui-text="Ignore hidden layers (*)">false</param>
+			<param name="ignore_hidden" type="boolean" _gui-text="Ignore hidden layers">false</param>
 			<param name="output" type="string" _gui-text="Output file">footprint.kicad_mod</param>
-			<param name="ignored_help" type="description" xml:space="preserve">(*) Unimplemented
 			</param>
 		</page>
 		

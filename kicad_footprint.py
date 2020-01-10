@@ -67,11 +67,11 @@ class KicadExport(inkex.Effect):
         self.OptionParser.add_option('--name',       action='store', type='string', dest='name',       default=None,   help='Footprint name')
         self.OptionParser.add_option('--output',     action='store', type='string', dest='output',     default=None,   help='Output file')
         self.OptionParser.add_option('--resolution', action='store', type='float',  dest='resolution', default=0.1,    help='Resolution (mm)')
+        self.OptionParser.add_option('--ignore_hidden', action='store', type='string',  dest='ignore_hidden', default=0, help='Ignore hidden layers')
 
         #Unimplemented parameters
         self.OptionParser.add_option('--width', action='store', type='float',  dest='width', default=0.1,    help='Line width (mm)')
         self.OptionParser.add_option('--transform', action='store', type='string',  dest='transform', default='1 0 0 0 1 0',    help='Transform matrix (6 floats, row-by-row)')
-        self.OptionParser.add_option('--ignore_hidden', action='store', type='string',  dest='ignore_hidden', default=0, help='Ignore hidden layers')
 
         #Inkscape seems to thing a tab stack is an option... whatev. Ignore
         self.OptionParser.add_option('--tabs', action='store', type='string', dest='ignore', default="")
@@ -108,6 +108,8 @@ class KicadExport(inkex.Effect):
         #resolution -- Minimum segment length
         self.resolution = self.options.resolution
         
+        #discard hidden layers
+        self.ignore_hidden = bool(self.options.ignore_hidden.upper() == "TRUE")
         
         # Write headers and prepare for conversion
         #-----------------------------------------
@@ -120,6 +122,11 @@ class KicadExport(inkex.Effect):
             #Find groups with the attribute inkscape:groupmode="layer"
             if attr_groupmode in element.attrib.keys():
                 if element.attrib[attr_groupmode] == 'layer':
+                    #Discard layer that are...
+                    # -- Hidden (where enabled)
+                    if self.ignore_hidden:
+                        if element.attrib["style"].find("display:none") >= 0:
+                            continue
                     #It is a layer, get the layer name and call process_layer
                     layer_name_svg   = element.attrib[attr_label]
                     layer_name_kicad = element.attrib[attr_label]
