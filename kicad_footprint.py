@@ -1,7 +1,7 @@
 # -*- coding: UTF8 -*-
 '''
 Inkscape to KiCAD footprint plugin.
-Copyright (C) 2020  J.Luis Álvarez
+Copyright (C) 2020  J.Luis Alvarez
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -125,8 +125,12 @@ class KicadExport(inkex.Effect):
                     #Discard layer that are...
                     # -- Hidden (where enabled)
                     if self.ignore_hidden:
+                      try:
                         if element.attrib["style"].find("display:none") >= 0:
-                            continue
+                          continue
+                      except KeyError as e:
+                        pass # Layers may have no style, if so, assume is "not hidden"
+                            
                     #It is a layer, get the layer name and call process_layer
                     layer_name_svg   = element.attrib[attr_label]
                     layer_name_kicad = element.attrib[attr_label]
