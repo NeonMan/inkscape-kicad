@@ -67,7 +67,7 @@ class KicadExport(inkex.Effect):
         self.OptionParser.add_option('--name',       action='store', type='string', dest='name',       default=None,   help='Footprint name')
         self.OptionParser.add_option('--output',     action='store', type='string', dest='output',     default=None,   help='Output file')
         self.OptionParser.add_option('--resolution', action='store', type='float',  dest='resolution', default=0.1,    help='Resolution (mm)')
-        self.OptionParser.add_option('--ignore_hidden', action='store', type='string',  dest='ignore_hidden', default=0, help='Ignore hidden layers')
+        self.OptionParser.add_option('--ignore_hidden', action='store', type='string',  dest='ignore_hidden', default="true", help='Ignore hidden layers')
 
         #Unimplemented parameters
         self.OptionParser.add_option('--width', action='store', type='float',  dest='width', default=0.1,    help='Line width (mm)')
